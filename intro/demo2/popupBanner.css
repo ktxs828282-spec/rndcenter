@@ -1,0 +1,289 @@
+:root {
+  --scrim: #282828;
+  --modal-bg: #ffffff;
+  --desktop-scale: 1;
+  --enter-duration: 850ms;
+  --close-duration: 650ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--scrim);
+  font-family:
+    Pretendard,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+button {
+  font: inherit;
+}
+
+.popup-page {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow: hidden;
+  background: var(--scrim);
+  transition: opacity 180ms ease;
+}
+
+.desktop-view,
+.mobile-view {
+  position: absolute;
+  inset: 0;
+}
+
+.desktop-stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1660px;
+  transform: translate(-50%, -50%) scale(var(--desktop-scale));
+  transform-origin: center center;
+}
+
+.desktop-popup-row {
+  display: grid;
+  grid-template-columns: repeat(4, 400px);
+  gap: 20px;
+  width: 1660px;
+}
+
+.popup-slot {
+  width: 400px;
+  min-height: 692px;
+}
+
+.popup-card {
+  width: 400px;
+  overflow: hidden;
+  background: var(--modal-bg);
+  will-change: transform, opacity;
+  --animate-duration: var(--enter-duration);
+}
+
+/* Animate.css 종료 효과가 실행되는 동안 중복 클릭만 막습니다. */
+.popup-card.is-closing {
+  pointer-events: none;
+  --animate-duration: var(--close-duration);
+}
+
+/* 카드가 사라져도 이 슬롯은 남아 있어 다른 카드가 이동하지 않습니다. */
+.popup-slot.is-empty-slot {
+  pointer-events: none;
+}
+
+.popup-header {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.brand-logo {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 128px;
+  height: 32px;
+  transform: translateX(-50%);
+  color: #151e32;
+  font-family: "Arial Black", Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 32px;
+  letter-spacing: -1.15px;
+  white-space: nowrap;
+}
+
+.close-button {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  transform: translateY(-50%);
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.close-button:hover {
+  background: #f2f4f7;
+}
+
+.close-icon {
+  position: relative;
+  display: block;
+  width: 14px;
+  height: 14px;
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.close-button:hover .close-icon {
+  transform: rotate(360deg);
+}
+
+.close-icon::before,
+.close-icon::after {
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: 14px;
+  height: 1.5px;
+  border-radius: 2px;
+  background: #303b50;
+  content: "";
+}
+
+.close-icon::before {
+  transform: rotate(45deg);
+}
+
+.close-icon::after {
+  transform: rotate(-45deg);
+}
+
+.popup-content {
+  width: 100%;
+  height: 560px;
+  background-color: #f7f7f7;
+  background-image:
+    linear-gradient(45deg, #e9e9e9 25%, transparent 25%),
+    linear-gradient(-45deg, #e9e9e9 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #e9e9e9 75%),
+    linear-gradient(-45deg, transparent 75%, #e9e9e9 75%);
+  background-position:
+    0 0,
+    0 35px,
+    35px -35px,
+    -35px 0;
+  background-size: 70px 70px;
+}
+
+.popup-footer {
+  position: relative;
+  width: 100%;
+  height: 72px;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.hide-today-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 148px;
+  height: 32px;
+  padding: 7px 12px;
+  overflow: hidden;
+  border: 1px solid #4cc4f9;
+  border-radius: 12px;
+  transform: translate(-50%, -50%);
+  color: #ffffff;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.6) 19.048%,
+      rgba(255, 255, 255, 0) 32.738%
+    ),
+    linear-gradient(
+      90deg,
+      #38bdf8 6.6372%,
+      #2dd4bf 38.673%,
+      #34d399 61.327%,
+      #84cc16 106.64%
+    );
+  font-size: 14px;
+  line-height: 18px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    filter 160ms ease,
+    transform 160ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hide-today-button:hover {
+  filter: brightness(1.04);
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+.close-button:focus-visible,
+.hide-today-button:focus-visible {
+  outline: 2px solid #1e9fe1;
+  outline-offset: 2px;
+}
+
+.mobile-view {
+  display: none;
+}
+
+.mobile-popup-wrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(396px, calc(100vw - 32px));
+  min-height: 692px;
+  transform: translate(-50%, -50%);
+}
+
+.mobile-popup-wrap .popup-card,
+.mobile-popup-wrap .popup-slot {
+  width: 100%;
+}
+
+.popup-page.is-empty {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 767px) {
+  body {
+    overflow-y: auto;
+  }
+
+  .popup-page {
+    min-height: 100vh;
+  }
+
+  .desktop-view {
+    display: none;
+  }
+
+  .mobile-view {
+    display: block;
+  }
+}

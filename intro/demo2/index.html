@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Popup Banner - bounceIn · backOutDown</title>
+
+  <link rel="stylesheet" href="./vendor/animate.min.css" />
+  <link rel="stylesheet" href="./popupBanner.css" />
+  <script src="./popupBanner.js" defer></script>
+</head>
+<body>
+  <main class="popup-page" id="popupPage" aria-label="팝업 배너 예시">
+    <section class="desktop-view" aria-label="데스크톱 팝업 배너">
+      <div class="desktop-stage" id="desktopStage">
+        <div class="desktop-popup-row" id="desktopPopupRow"></div>
+      </div>
+    </section>
+
+    <section class="mobile-view" aria-label="모바일 팝업 배너">
+      <div class="mobile-popup-wrap" id="mobilePopupWrap"></div>
+    </section>
+  </main>
+
+  <template id="popupTemplate">
+    <article class="popup-card">
+      <header class="popup-header">
+        <div class="brand-logo" aria-label="Sample">SAMPLE</div>
+
+        <button class="close-button" type="button" aria-label="팝업 닫기">
+          <span class="close-icon" aria-hidden="true"></span>
+        </button>
+      </header>
+
+      <div class="popup-content" aria-hidden="true"></div>
+
+      <footer class="popup-footer">
+        <button class="hide-today-button" type="button">
+          오늘 하루 열지 않기
+        </button>
+      </footer>
+    </article>
+  </template>
+</body>
+</html>
