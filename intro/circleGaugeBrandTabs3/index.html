@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gauge Demo</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="page">
+    <section class="demo-card" aria-label="Gauge demo">
+      <div class="brand-tabs" role="group" aria-label="게이지 테마">
+        <button type="button" class="brand-button is-active" data-brand="9win" aria-pressed="true">9WIN</button>
+        <button type="button" class="brand-button" data-brand="kplay" aria-pressed="false">KPLAY</button>
+        <button type="button" class="brand-button" data-brand="sena" aria-pressed="false">SENA</button>
+      </div>
+
+      <div class="gauge" id="gauge" style="--progress: 0%">
+        <div class="gauge__base" aria-hidden="true"></div>
+        <div class="gauge__progress" aria-hidden="true"></div>
+        <div class="gauge__frame" aria-hidden="true"></div>
+        <div class="gauge__value" id="gaugeValue" aria-label="99 plus"><span>99</span><em>+</em></div>
+      </div>
+
+      <div class="controls" role="group" aria-label="게이지 값 프리셋">
+        <button type="button" data-value="0">0%</button>
+        <button type="button" data-value="20">20%</button>
+        <button type="button" data-value="50">50%</button>
+        <button type="button" data-value="75">75%</button>
+        <button type="button" data-value="100">100%</button>
+      </div>
+
+      <label class="slider-row" for="gaugeSlider">
+        <span>Progress</span>
+        <input id="gaugeSlider" type="range" min="0" max="100" value="0" />
+      </label>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
