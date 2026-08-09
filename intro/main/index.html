@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sports Games</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main class="sportsPage">
+    <section class="sportsSection" aria-labelledby="sportsTitle">
+      <header class="sectionHeading">
+        <p class="sectionEyebrow">SPORTS GAMES</p>
+        <div class="sectionTitleRow" aria-hidden="true">
+          <img class="titleLine titleLineLeft" src="./assets/lines/lineLeft.png" alt="" />
+          <img class="titleLine titleLineRight" src="./assets/lines/lineRight.png" alt="" />
+        </div>
+        <h1 id="sportsTitle">스포츠</h1>
+        <p class="sectionDescription">인플레이, 로얄 스포츠, BTI 스포츠</p>
+      </header>
+
+      <div class="providerTabs" role="tablist" aria-label="스포츠 게임사 선택">
+        <button
+          class="providerTab isActive"
+          id="providerTabA"
+          type="button"
+          role="tab"
+          aria-selected="true"
+          aria-controls="providerPanel"
+          tabindex="0"
+          data-provider="a"
+        >
+          <img class="buttonSkin buttonSkinDefault" src="./assets/button/focus=false.png" alt="" aria-hidden="true" />
+          <img class="buttonSkin buttonSkinFocus" src="./assets/button/focus=true.png" alt="" aria-hidden="true" />
+          <span class="buttonContent">
+            <span class="providerIcon" aria-hidden="true"></span>
+            <span>인플레이 스포츠</span>
+          </span>
+        </button>
+
+        <button
+          class="providerTab"
+          id="providerTabB"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="providerPanel"
+          tabindex="-1"
+          data-provider="b"
+        >
+          <img class="buttonSkin buttonSkinDefault" src="./assets/button/focus=false.png" alt="" aria-hidden="true" />
+          <img class="buttonSkin buttonSkinFocus" src="./assets/button/focus=true.png" alt="" aria-hidden="true" />
+          <span class="buttonContent">
+            <span class="providerIcon" aria-hidden="true"></span>
+            <span>로얄 스포츠</span>
+          </span>
+        </button>
+
+        <button
+          class="providerTab"
+          id="providerTabC"
+          type="button"
+          role="tab"
+          aria-selected="false"
+          aria-controls="providerPanel"
+          tabindex="-1"
+          data-provider="c"
+        >
+          <img class="buttonSkin buttonSkinDefault" src="./assets/button/focus=false.png" alt="" aria-hidden="true" />
+          <img class="buttonSkin buttonSkinFocus" src="./assets/button/focus=true.png" alt="" aria-hidden="true" />
+          <span class="buttonContent">
+            <span class="providerIcon" aria-hidden="true"></span>
+            <span>BTI 스포츠</span>
+          </span>
+        </button>
+      </div>
+
+      <article
+        class="providerPanel"
+        id="providerPanel"
+        role="tabpanel"
+        aria-labelledby="providerTabA"
+        tabindex="0"
+      >
+        <img class="panelCorner panelCornerTopLeft" src="./assets/lines/containerLineTopLeft.png" alt="" aria-hidden="true" />
+        <img class="panelCorner panelCornerTopRight" src="./assets/lines/containerLineTopRight.png" alt="" aria-hidden="true" />
+        <img class="panelCorner panelCornerBottomLeft" src="./assets/lines/containerLineBottomLeft.png" alt="" aria-hidden="true" />
+        <img class="panelCorner panelCornerBottomRight" src="./assets/lines/containerLineBottomRight.png" alt="" aria-hidden="true" />
+
+        <div class="providerVisual">
+          <img
+            class="providerImage"
+            id="providerImage"
+            src="./asset/image/game/sports/char/liveSports.gif"
+            alt="인플레이 스포츠 게임 이미지"
+          />
+        </div>
+
+        <div class="providerContent">
+          <div class="providerCopy">
+            <div class="providerHeading">
+              <h2 id="providerName">Inplay Sports</h2>
+              <p id="providerCategory">SPORTS</p>
+            </div>
+            <p class="providerBody" id="providerBody">
+              실시간으로 진행되는 경기 흐름에 맞춰 빠르게 베팅을 즐길 수 있는 인플레이 스포츠입니다. 경기 중 변화하는 상황과 흐름을 확인하며 다양한 마켓에 즉시 참여할 수 있고, 실시간 방송과 통계 프로그램을 통해 더욱 생생하고 정확한 경기 정보를 제공합니다. 빠른 배당 변동과 현장감 있는 베팅 환경을 통해 스포츠의 긴장감과 재미를 더욱 높여주는 실시간으로 생생하고 긴장감있는 베팅 환경을 제공합니다.
+            </p>
+          </div>
+
+          <button class="enterButton" type="button" id="enterButton">
+            <img class="buttonSkin buttonSkinFocus isVisible" src="./assets/button/focus=true.png" alt="" aria-hidden="true" />
+            <span class="buttonContent">게임입장</span>
+          </button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
