@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Circle Gauge Brand Tabs</title>
+
+  <style>
+    @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 50px;
+      background: #1e2230;
+      font-family:
+        "Pretendard",
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+    }
+
+    .brandTabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 30px;
+    }
+
+    .brandTab {
+      min-width: 80px;
+      padding: 10px 16px;
+      border: 1px solid #596077;
+      border-radius: 6px;
+      background: #303647;
+      color: #aeb5c7;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition:
+        background-color 0.2s,
+        color 0.2s,
+        border-color 0.2s;
+    }
+
+    .brandTab:hover {
+      color: #fff;
+      border-color: #8992aa;
+    }
+
+    .brandTab.isActive {
+      color: var(--tabBrandColor);
+      border-color: var(--tabBrandColor);
+      background: #fff;
+    }
+
+    .brandTab[data-brand="9win"] {
+      --tabBrandColor: #28c9d7;
+    }
+
+    .brandTab[data-brand="kplay"] {
+      --tabBrandColor: #2578ff;
+    }
+
+    .brandTab[data-brand="sena"] {
+      --tabBrandColor: #343434;
+    }
+
+    .animationItem {
+      --imageTable: url("./imageTable.png");
+      --loadingBar: url("./loadingBar.png");
+      --gaugeRing: url("./gaugeRing.png");
+      --brandColor: #28c9d7;
+
+      position: relative;
+      width: 128px;
+      height: 128px;
+      margin: 0 auto;
+      text-align: center;
+
+      background-image: var(--imageTable);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 128px 128px;
+    }
+
+    .title {
+      position: relative;
+      z-index: 10;
+      height: 100%;
+      line-height: 128px;
+      color: var(--brandColor);
+      font-size: 14px;
+      font-weight: 700;
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    .title > span {
+      font-size: 30px;
+      font-weight: 800;
+    }
+
+    .circle {
+      position: absolute;
+      width: 88px;
+      height: 88px;
+      left: 20px;
+      top: 20px;
+
+      background-image: var(--loadingBar);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 88px 88px;
+    }
+
+    .default,
+    .cover {
+      position: absolute;
+      width: 44px;
+      height: 88px;
+      top: 0;
+
+      background-image: var(--gaugeRing);
+      background-repeat: no-repeat;
+      background-size: 88px 88px;
+    }
+
+    .default {
+      left: 0;
+      background-position: left center;
+    }
+
+    .cover {
+      z-index: 2;
+      right: 0;
+      background-position: right center;
+
+      transform-origin: left center;
+      transform: rotate(0deg);
+    }
+
+    /*
+     * 진행 중인 컬러 게이지의 끝부분을 둥글게 만드는 캡.
+     * loadingBar 이미지를 그대로 한 장 더 사용하고, 작은 원형 영역만 노출한다.
+     * 바깥 래퍼와 텍스처를 반대 방향으로 회전시켜 그라데이션 위치도 원본과 맞춘다.
+     */
+    .progressCapOrbit {
+      position: absolute;
+      z-index: 3;
+      inset: 0;
+      width: 88px;
+      height: 88px;
+      opacity: 0;
+      pointer-events: none;
+      transform: rotate(0deg);
+      transform-origin: 44px 44px;
+      will-change: transform;
+    }
+
+    .progressCapMask {
+      position: absolute;
+      inset: 0;
+      width: 88px;
+      height: 88px;
+
+      /*
+       * 실제 링의 중심 반경 약 39px / 두께 약 10px 기준.
+       * 끝단만 지름 약 10px의 원으로 노출해서 round cap을 만든다.
+       */
+      clip-path: circle(5.2px at 44px 83.3px);
+    }
+
+    .progressCapTexture {
+      position: absolute;
+      inset: 0;
+      width: 88px;
+      height: 88px;
+
+      background-image: var(--loadingBar);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 88px 88px;
+
+      transform: rotate(0deg);
+      transform-origin: 44px 44px;
+      will-change: transform;
+    }
+
+
+
+    /*
+     * 진행 시작 지점(bottom center)에도 round cap을 고정 표시한다.
+     * 진행률이 0일 때는 숨기고, 진행이 시작되면 함께 나타난다.
+     */
+    .progressStartCap {
+      position: absolute;
+      z-index: 3;
+      inset: 0;
+      width: 88px;
+      height: 88px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .progressStartCapMask {
+      position: absolute;
+      inset: 0;
+      width: 88px;
+      height: 88px;
+      clip-path: circle(5.2px at 44px 83.3px);
+    }
+
+    .progressStartCapTexture {
+      position: absolute;
+      inset: 0;
+      width: 88px;
+      height: 88px;
+
+      background-image: var(--loadingBar);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 88px 88px;
+    }
+
+    .playButton {
+      display: block;
+      margin: 30px auto 0;
+      padding: 10px 20px;
+      border: 0;
+      border-radius: 6px;
+      background: #fff;
+      color: #1e2230;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="brandTabs" role="tablist" aria-label="브랜드 선택">
+    <button
+      type="button"
+      class="brandTab isActive"
+      role="tab"
+      aria-selected="true"
+      data-brand="9win"
+    >
+      9WIN
+    </button>
+
+    <button
+      type="button"
+      class="brandTab"
+      role="tab"
+      aria-selected="false"
+      data-brand="kplay"
+    >
+      KPLAY
+    </button>
+
+    <button
+      type="button"
+      class="brandTab"
+      role="tab"
+      aria-selected="false"
+      data-brand="sena"
+    >
+      SENA
+    </button>
+  </div>
+
+  <div class="animationItem" id="circleGauge">
+    <div class="title">
+      <span>99</span>+
+    </div>
+
+    <div class="circle">
+      <div class="default"></div>
+      <div class="cover"></div>
+
+      <div class="progressStartCap" aria-hidden="true">
+        <div class="progressStartCapMask">
+          <div class="progressStartCapTexture"></div>
+        </div>
+      </div>
+
+      <div class="progressCapOrbit" aria-hidden="true">
+        <div class="progressCapMask">
+          <div class="progressCapTexture"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button type="button" class="playButton" id="playButton">
+    게이지 실행
+  </button>
+
+  <script>
+    const circleGauge = document.querySelector("#circleGauge");
+    const cover = circleGauge.querySelector(".cover");
+    const progressStartCap = circleGauge.querySelector(".progressStartCap");
+    const progressCapOrbit = circleGauge.querySelector(".progressCapOrbit");
+    const progressCapTexture = circleGauge.querySelector(".progressCapTexture");
+    const playButton = document.querySelector("#playButton");
+    const brandTabs = document.querySelectorAll(".brandTab");
+
+    const brandData = {
+      "9win": {
+        imageTable: "./imageTable.png",
+        loadingBar: "./loadingBar.png",
+        gaugeRing: "./gaugeRing.png",
+        color: "#28c9d7"
+      },
+
+      kplay: {
+        imageTable: "./assets/image/kplay/imageTable.webp",
+        loadingBar: "./assets/image/kplay/loadingBar.webp",
+        gaugeRing: "./assets/image/kplay/gaugeRing.webp",
+        color: "#2578ff"
+      },
+
+      sena: {
+        imageTable: "./assets/image/sena/imageTable.webp",
+        loadingBar: "./assets/image/sena/loadingBar.webp",
+        gaugeRing: "./assets/image/sena/gaugeRing.webp",
+        color: "#343434"
+      }
+    };
+
+    function resetGauge() {
+      /*
+       * transition을 완전히 끄고 0deg로 되돌린 뒤
+       * 강제로 layout을 발생시켜 초기 상태를 확정한다.
+       */
+      cover.style.transition = "none";
+      cover.style.transform = "rotate(0deg)";
+
+      progressStartCap.style.transition = "none";
+      progressStartCap.style.opacity = "0";
+
+      progressCapOrbit.style.transition = "none";
+      progressCapOrbit.style.transform = "rotate(0deg)";
+      progressCapOrbit.style.opacity = "0";
+
+      progressCapTexture.style.transition = "none";
+      progressCapTexture.style.transform = "rotate(0deg)";
+
+      void cover.offsetWidth;
+      void progressStartCap.offsetWidth;
+      void progressCapOrbit.offsetWidth;
+    }
+
+    function playGauge() {
+      /*
+       * 버튼을 여러 번 눌러도 매번
+       * 0deg -> -160deg 애니메이션이 다시 실행된다.
+       */
+      resetGauge();
+
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          cover.style.transition = "transform 3s ease";
+          cover.style.transform = "rotate(-160deg)";
+
+          /*
+           * 시작 지점(bottom center)도 round cap을 고정 표시한다.
+           */
+          progressStartCap.style.opacity = "1";
+
+          /*
+           * 둥근 끝단도 cover와 같은 각도로 이동한다.
+           * 내부 텍스처는 반대로 회전시켜 loadingBar의 원래 그라데이션 방향을 유지한다.
+           */
+          progressCapOrbit.style.opacity = "1";
+          progressCapOrbit.style.transition = "transform 3s ease";
+          progressCapOrbit.style.transform = "rotate(-160deg)";
+
+          progressCapTexture.style.transition = "transform 3s ease";
+          progressCapTexture.style.transform = "rotate(160deg)";
+        });
+      });
+    }
+
+    function changeBrand(brand) {
+      const data = brandData[brand];
+
+      if (!data) {
+        return;
+      }
+
+      circleGauge.style.setProperty(
+        "--imageTable",
+        `url("${data.imageTable}")`
+      );
+
+      circleGauge.style.setProperty(
+        "--loadingBar",
+        `url("${data.loadingBar}")`
+      );
+
+      circleGauge.style.setProperty(
+        "--gaugeRing",
+        `url("${data.gaugeRing}")`
+      );
+
+      circleGauge.style.setProperty("--brandColor", data.color);
+
+      brandTabs.forEach((tab) => {
+        const isActive = tab.dataset.brand === brand;
+
+        tab.classList.toggle("isActive", isActive);
+        tab.setAttribute("aria-selected", String(isActive));
+      });
+
+      /*
+       * 브랜드를 바꾸면 게이지는 0deg 초기 상태로 돌아간다.
+       * 이후 '게이지 실행' 버튼을 누르면 다시 진행된다.
+       */
+      resetGauge();
+    }
+
+    brandTabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        changeBrand(tab.dataset.brand);
+      });
+    });
+
+    playButton.addEventListener("click", playGauge);
+
+    /*
+     * 첫 화면도 초기 상태로 확정.
+     */
+    resetGauge();
+  </script>
+</body>
+</html>
