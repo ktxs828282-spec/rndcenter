@@ -107,27 +107,27 @@
 
     .circle {
       position: absolute;
-      width: 88px;
-      height: 88px;
-      left: 20px;
-      top: 20px;
+      width: 98px;
+      height: 98px;
+      left: 15px;
+      top: 15px;
 
       background-image: var(--loadingBar);
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 88px 88px;
+      background-size: 98px 98px;
     }
 
     .default,
     .cover {
       position: absolute;
-      width: 44px;
-      height: 88px;
+      width: 49px;
+      height: 98px;
       top: 0;
 
       background-image: var(--gaugeRing);
       background-repeat: no-repeat;
-      background-size: 88px 88px;
+      background-size: 98px 98px;
     }
 
     .default {
@@ -153,41 +153,40 @@
       position: absolute;
       z-index: 3;
       inset: 0;
-      width: 88px;
-      height: 88px;
+      width: 98px;
+      height: 98px;
       opacity: 0;
       pointer-events: none;
       transform: rotate(0deg);
-      transform-origin: 44px 44px;
+      transform-origin: 49px 49px;
       will-change: transform;
     }
 
     .progressCapMask {
       position: absolute;
       inset: 0;
-      width: 88px;
-      height: 88px;
+      width: 98px;
+      height: 98px;
 
       /*
-       * 실제 링의 중심 반경 약 39px / 두께 약 10px 기준.
-       * 끝단만 지름 약 10px의 원으로 노출해서 round cap을 만든다.
+       * 98px 링 비율에 맞춘 round cap.
        */
-      clip-path: circle(5.2px at 44px 83.3px);
+      clip-path: circle(5.8px at 49px 92.8px);
     }
 
     .progressCapTexture {
       position: absolute;
       inset: 0;
-      width: 88px;
-      height: 88px;
+      width: 98px;
+      height: 98px;
 
       background-image: var(--loadingBar);
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 88px 88px;
+      background-size: 98px 98px;
 
       transform: rotate(0deg);
-      transform-origin: 44px 44px;
+      transform-origin: 49px 49px;
       will-change: transform;
     }
 
@@ -201,8 +200,8 @@
       position: absolute;
       z-index: 3;
       inset: 0;
-      width: 88px;
-      height: 88px;
+      width: 98px;
+      height: 98px;
       opacity: 0;
       pointer-events: none;
     }
@@ -210,21 +209,21 @@
     .progressStartCapMask {
       position: absolute;
       inset: 0;
-      width: 88px;
-      height: 88px;
-      clip-path: circle(5.2px at 44px 83.3px);
+      width: 98px;
+      height: 98px;
+      clip-path: circle(5.8px at 49px 92.8px);
     }
 
     .progressStartCapTexture {
       position: absolute;
       inset: 0;
-      width: 88px;
-      height: 88px;
+      width: 98px;
+      height: 98px;
 
       background-image: var(--loadingBar);
       background-repeat: no-repeat;
       background-position: center;
-      background-size: 88px 88px;
+      background-size: 98px 98px;
     }
 
     .playButton {
